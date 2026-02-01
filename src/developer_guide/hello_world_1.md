@@ -246,7 +246,7 @@ public class PluginManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F1)) // 按下 F1 键时
         {
-            Log.Warning("HelloWorld from my first il2cpp Mod!"); // 在控制台打印一行日志
+            Log.LogWarning("HelloWorld from my first il2cpp Mod!"); // 在控制台打印一行日志
         }
     }
 }
