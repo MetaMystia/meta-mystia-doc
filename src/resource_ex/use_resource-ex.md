@@ -4,21 +4,11 @@
 
 目前，ResourceEx已支持配置：
 
-- 稀客基本信息
-- 图鉴描述
-- 立绘贴图
-- 携带金钱
-- 评价语句
-- 闲聊语句
-- 食物与酒水的喜好与厌恶标签
-- 食物与酒水的点单需求
-- 出没地点
-- 角色小人贴图
-- 自定义角色对话包内容
-- 自定义原料、食谱与食物
-- 自定义剧情
-- 自定义羁绊事件和任务
-- 白天出生地点
+- 自定义稀客
+- 自定义商人
+- 自定义羁绊剧情任务事件系统
+- 自定义料理、菜谱、食材、酒水
+- 自定义服装
 
 配合对应的在线工具，即使不具备复杂开发环境，也可以较为轻松地制作扩展资源。
 
@@ -51,7 +41,7 @@
 
 ![示例图片6](./use_resource-ex.assets/image-20260110224858165.png)
 
-> （演示视频将在后续补充）
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115989450588495&bvid=BV1NJ61BBE1S&cid=35731014598&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
 
 ## 使用方法
 
@@ -59,29 +49,8 @@
 
 您无需手动管理目录结构、图片资源及`ResourceEx.json`文件，推荐直接使用[MetaMystia-ResourceEx-Editor](https://editor.meta-mystia.izakaya.cc)在线工具生成。
 
-## 注意事项
-
-1. 角色ID分配规则：
-    - 0–999：游戏原有资源
-    - 1000–5999：DLC资源
-    - 6000-8999: 为原游戏预留的扩展段
-    - 9000–11999：MetaMystia保留扩展段
-    - 12000及以上：创作者自定义资源
-
 > [!CAUTION]
-> 请避免使用0–11999范围内的ID。建议以每1000为一个独立创作区间，减少冲突。
->
-> 您也可以向MetaMystia开发团队告知您所需的专属ID段，以确保资源包的唯一性。
-
-## 对话展示与触发
-
-当前ResourceEx仅负责**加载并注入对话数据**，尚未提供完整的对话触发逻辑。
-
-对于自行编写逻辑或调试的开发者，暂时可通过`WebDebugger`的简易`Console`手动触发指定对话包：
-
-```csharp
-MetaMystia.Dialog.ShowResourceExPackage("YourDialogPackageName", null)
-```
+> 有关ID段的设定与分配，请务必参考[ID签名校验机制](./resource_ex/why_add_signature_check.md)
 
 ## 关于版权
 
