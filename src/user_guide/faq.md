@@ -34,6 +34,7 @@
 - `游戏根目录/doorstop_config.ini`
 - `游戏根目录/MinHook.x64.dll`
 - `游戏根目录/winhttp.dll`
+- `游戏根目录/ResourceEx`
 
 ## 联机相关问题
 
