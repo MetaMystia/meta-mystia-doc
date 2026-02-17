@@ -110,7 +110,7 @@ public class Plugin : BasePlugin
     public override void Load()
     {
         Log = base.Log;
-        Log.LogWarning($"Plugin HelloWorld is loaded!");
+        Log.Warning($"Plugin HelloWorld is loaded!");
     }
 }
 ```
@@ -246,7 +246,7 @@ public class PluginManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F1)) // 按下 F1 键时
         {
-            Log.LogWarning("HelloWorld from my first il2cpp Mod!"); // 在控制台打印一行日志
+            Log.Warning("HelloWorld from my first il2cpp Mod!"); // 在控制台打印一行日志
         }
     }
 }
