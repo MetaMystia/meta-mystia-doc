@@ -11,6 +11,7 @@
 # 资源扩展
 
 - [ResourceEx](./resource_ex/use_resource-ex.md)
+- [id 签名校验](./resource_ex/why_add_signature_check.md)
 
 # 开发者指南
 
