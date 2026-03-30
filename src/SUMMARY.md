@@ -7,6 +7,8 @@
 - [如何安装](./user_guide/how_to_install.md)
 - [如何使用](./user_guide/how_to_use.md)
 - [常见问题](./user_guide/faq.md)
+- [常用命令](./user_guide/commands.md)
+- [皮肤系统](./user_guide/skin.md)
 
 # 资源扩展
 
