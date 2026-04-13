@@ -2,7 +2,7 @@
 
 ## 联机系统
 
-- `/mp start server`启动联机服务（作为房主使用）
+- `/mp start`启动联机服务（作为房主使用）
 - `/mp stop`停止当前联机服务
 - `/mp connect <IP地址>`连接到指定IP地址的联机房间（请将`<IP地址>`替换为房主的实际IP，不要用尖括号包裹）
 - `/mp disconnect`断开当前连接

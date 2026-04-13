@@ -32,7 +32,7 @@ MetaMystia内置了一个**游戏内控制台**，用于输入联机相关命令
 
 在控制台中，您可以使用以下常见的联机指令：
 
-- `/mp start server`启动联机服务（作为房主使用）
+- `/mp start`启动联机服务（作为房主使用）
 - `/mp stop`停止当前联机服务
 - `/mp connect <IP地址>`连接到指定IP地址的联机房间（请将`<IP地址>`替换为房主的实际IP，不要用尖括号包裹）
 - `/mp disconnect`断开当前连接
@@ -72,7 +72,7 @@ MetaMystia当前使用的是**P2P（点对点）联机方式**，即玩家之间
 
 如果出现**连接超时或无法连接**的情况，请优先检查：
 
-- 主机是否成功执行`/mp start server`，而不是`/mp start`或`/mp start serve`等错误命令
+- 主机是否成功执行`/mp start`，而不是`/mp start server`或`/mp start serve`等错误命令
 - 客机是否在主机开启联机后成功执行`/mp connect <IP地址>`（不含尖括号），而不是`/mp connect`、`/mp start client`或`/mp start cilent`等错误命令
 - IP是否正确，主机与客机之间是否可以正常通信，**防火墙**是否阻止了游戏的网络通信
   （可尝试临时关闭防火墙，或为游戏添加放行规则）
