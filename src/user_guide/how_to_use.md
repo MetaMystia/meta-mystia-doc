@@ -72,7 +72,7 @@ MetaMystia当前使用的是**P2P（点对点）联机方式**，即玩家之间
 
 如果出现**连接超时或无法连接**的情况，请优先检查：
 
-- 主机是否成功执行`/mp start server`，而不是`/mp start`或`/mp start serve`等错误命令
+- 主机是否成功执行`/mp start`，而不是`/mp start server` 等错误命令，高级玩家可以使用 `/mp start 25565` 来指定 TCP 监听端口
 - 客机是否在主机开启联机后成功执行`/mp connect <IP地址>`（不含尖括号），而不是`/mp connect`、`/mp start client`或`/mp start cilent`等错误命令
 - IP是否正确，主机与客机之间是否可以正常通信，**防火墙**是否阻止了游戏的网络通信
   （可尝试临时关闭防火墙，或为游戏添加放行规则）
