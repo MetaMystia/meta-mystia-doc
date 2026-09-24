@@ -77,11 +77,9 @@
 
 ### 二、下载安装Mod {#install_mod}
 
-1. 从以下任一地址下载<span class="version-dll">最新的**MetaMystia-v\*.dll**</span>（推荐通过GitHub）：
+1. 从以下地址下载<span class="version-dll">最新的**MetaMystia-v\*.dll**</span>：
     - GitHub：
       [https://github.com/MetaMystia/MetaMystia/releases](https://github.com/MetaMystia/MetaMystia/releases)
-    - 本站服务器：
-      [https://url.izakaya.cc/getMetaMystia](https://url.izakaya.cc/getMetaMystia)
 
 2. 下载完成后，将<span class="version-dll">**MetaMystia-v\*.dll**</span>放入以下目录：
 
@@ -121,7 +119,9 @@
 
 ### 一键升级
 
-MetaMystia管理工具支持一键升级。您可以阅读[下载安装Mod](#onclick_install)了解如何获取和使用该工具。
+MetaMystia管理工具支持一键升级。升级过程中如果出错，工具会自动回滚到升级前的状态，您可以放心重试。
+
+您可以阅读[下载安装Mod](#onclick_install)了解如何获取和使用该工具。
 
 ### 手动升级
 
