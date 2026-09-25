@@ -8,7 +8,7 @@
 
 可以。MetaMystia所提供的额外内容（如：新的稀客、料理和食材等）**不强制要求**联机，您完全可以把它当成一个“内容扩展Mod”，单人游玩时同样可以正常体验这些新东西。
 
-您可以阅读[下载安装Mod](./how_to_install.md#install_mod)获取更多信息。
+您可以阅读[一键安装](./how_to_install.md#onclick_install)获取更多信息。
 
 ### 为什么有时候游戏窗口会卡死、白屏，并有弹窗提示“该程序未响应”？
 
@@ -18,7 +18,7 @@
 
 ### 运行管理工具时显示“版本信息无效”怎么办？
 
-这通常说明您使用的管理工具版本过旧，而服务器接口已经更新。请重新下载最新版的<span class="version-manager">**meta-mystia-manager-v\*.exe**</span>（见[下载安装Mod](./how_to_install.md#onclick_install)），旧版本无法继续完成安装或升级。
+这通常说明您使用的管理工具版本过旧，而服务器接口已经更新。请重新下载最新版的<span class="version-manager">**meta-mystia-manager-v\*.exe**</span>（见[一键安装](./how_to_install.md#onclick_install)），旧版本无法继续完成安装或升级。
 
 如果是因为无法联网导致获取版本信息失败，工具会进入**离线模式**，此时只能选择卸载或导出诊断包；安装与升级需要网络，请等网络恢复后重试。
 
@@ -26,7 +26,7 @@
 
 #### 一键卸载
 
-MetaMystia管理工具提供一键卸载功能。您可以阅读[下载安装Mod](./how_to_install.md#onclick_install)了解如何获取和使用该工具。
+MetaMystia管理工具提供一键卸载功能。您可以阅读[一键安装](./how_to_install.md#onclick_install)了解如何获取和使用该工具。
 
 #### 手动卸载
 

@@ -4,7 +4,7 @@
 
 ## 一键安装 {#onclick_install}
 
-我们提供了一键安装、升级、卸载MetaMystia的工具，推荐您使用这个工具来方便地进行相关管理操作。
+MetaMystia管理工具支持一键安装、升级、卸载和诊断，**推荐所有玩家使用**，安装与后续更新都交给它即可。
 
 1. 从以下任一地址下载<span class="version-manager">最新的**meta-mystia-manager-v\*.exe**</span>：
     - GitHub：
@@ -19,7 +19,10 @@
 
 ## 手动安装
 
-除非您有特别需要，否则推荐您使用[一键安装](#onclick_install)。
+<details id="install_mod">
+<summary>展开手动安装步骤</summary>
+
+手动安装同样可用，但需要自己获取文件并放入目录，也不会自动更新；日常使用建议优先选择[一键安装](#onclick_install)。
 
 ### 安装前需要了解的内容
 
@@ -75,7 +78,7 @@
 5. 启动游戏。
    如果游戏启动时弹出一个**黑色控制台窗口**，说明BepInEx已成功安装。首次启动时加载时间可能较长，请耐心等待。
 
-### 二、下载安装Mod {#install_mod}
+### 二、下载安装Mod
 
 1. 从以下地址下载<span class="version-dll">最新的**MetaMystia-v\*.dll**</span>：
     - GitHub：
@@ -115,13 +118,15 @@
 
     被拒绝的资源包会同时显示原因，并记录在`BepInEx/LogOutput.log`中。
 
+</details>
+
 ## 如何升级 {#update_mod}
 
 ### 一键升级
 
 MetaMystia管理工具支持一键升级。升级过程中如果出错，工具会自动回滚到升级前的状态，您可以放心重试。
 
-您可以阅读[下载安装Mod](#onclick_install)了解如何获取和使用该工具。
+您可以阅读[一键安装](#onclick_install)了解如何获取和使用该工具。
 
 ### 手动升级
 
@@ -132,4 +137,4 @@ MetaMystia管理工具支持一键升级。升级过程中如果出错，工具�
 3. 再次启动游戏；如果出现Il2CppInterop补丁更新提示，再重启一次。
 
 > [!TIP]
-> 手动安装的文件不会自动更新。遇到问题时，先确认游戏、MetaMystia和ResourceEx资源包是否为相互兼容的版本。如果您遇到了任何问题，您可以再次前往上述网址查看我们是否已经发布了对应的修复版本。
+> 手动安装的文件不会自动更新，版本兼容性也要自己确认；建议改用[管理工具](#onclick_install)。

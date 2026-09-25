@@ -15,9 +15,9 @@
 
 ## 示例资源包现状
 
-[MetaMystia-ResourceExample](https://github.com/MetaMystia/MetaMystia-ResourceExample)是可直接安装的示例包，也可作为创作参考。
+示例包（MetaMystia-ResourceExample）可通过[管理工具](../user_guide/how_to_install.md#onclick_install)安装。制作资源包的创作者可参考[示例包仓库](https://github.com/MetaMystia/MetaMystia-ResourceExample)，其中的`ResourceEx.json`列出了全部示例内容。
 
-示例包展示了角色、对话、食材、料理、食谱、酒水、任务、事件、商人和服装等配置，其中包含大妖精、小恶魔、芙兰朵露、八意永琳、神绮、秋姐妹、八云蓝、雪、舞等角色。部分角色已有羁绊流程，其余内容仍会继续补充。资源清单以示例仓库当前的`ResourceEx.json`为准。
+示例包展示了角色、对话、食材、料理、食谱、酒水、任务、事件、商人和服装等配置，其中包含大妖精、小恶魔、芙兰朵露、八意永琳、神绮、秋姐妹、八云蓝、雪、舞等角色。部分角色已有羁绊流程，其余内容仍会继续补充。
 
 ![示例角色](./use_resource-ex.assets/531355090-29c4d18b-2201-4ca5-8e0b-149882682493.png)
 
