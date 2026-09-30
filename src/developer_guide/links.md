@@ -4,7 +4,7 @@
 
 - MetaMystia Mod：[https://github.com/MetaMystia/MetaMystia](https://github.com/MetaMystia/MetaMystia)
 - ResourceExample示例资源包：[https://github.com/MetaMystia/MetaMystia-ResourceExample](https://github.com/MetaMystia/MetaMystia-ResourceExample)
-- MetaMystia管理器：[https://github.com/MetaMystia/meta-mystia-manager](https://github.com/MetaMystia/meta-mystia-manager)
+- MetaMystia Mod管理工具：[https://github.com/MetaMystia/meta-mystia-manager](https://github.com/MetaMystia/meta-mystia-manager)
 - ResourceEx在线编辑器：[https://github.com/MetaMystia/MetaMystia-ResourceEx-Editor](https://github.com/MetaMystia/MetaMystia-ResourceEx-Editor)
 - 本文档仓库：[https://github.com/MetaMystia/meta-mystia-doc](https://github.com/MetaMystia/meta-mystia-doc)
 

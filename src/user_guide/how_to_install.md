@@ -4,7 +4,7 @@
 
 ## 一键安装 {#onclick_install}
 
-MetaMystia管理工具支持一键安装、升级、卸载和诊断，**推荐所有玩家使用**，安装与后续更新都交给它即可。
+MetaMystia Mod管理工具支持一键安装、升级、卸载和诊断，**推荐所有玩家使用**，安装与后续更新都交给它即可。
 
 1. 从以下任一地址下载<span class="version-manager">最新的**meta-mystia-manager-v\*.exe**</span>：
     - GitHub：
@@ -15,7 +15,7 @@ MetaMystia管理工具支持一键安装、升级、卸载和诊断，**推荐�
 2. 下载完成后，双击运行该文件。
 3. 根据工具中的提示，选择您需要的功能。
 
-    ![MetaMystia管理工具运行截图](./how_to_install.assets/image-20260202110344.png)
+    ![MetaMystia Mod管理工具运行截图](./how_to_install.assets/15e3f52d-bc2c-48b7-8c39-a34370adaded.png)
 
 ## 手动安装
 
@@ -104,9 +104,7 @@ MetaMystia管理工具支持一键安装、升级、卸载和诊断，**推荐�
 
     GitHub的releases中可能不是每个都会附带<span class="version-zip">**ResourceExample-v\*.zip**</span>，您可以在最近一个提供此文件的release中下载。
 
-4. 再次启动游戏。当游戏左下角出现白色MetaMystia状态文字时，表示Mod已加载：
-
-    ![成功安装后的输出](./how_to_install.assets/image-20251231115308622.png)
+4. 再次启动游戏。当游戏左下角出现MetaMystia状态文字时，表示Mod已加载。
 
 5. 如果游戏提示已自动更新`Il2CppInterop.HarmonySupport.dll`，请关闭并重新启动游戏。该补丁在下一次启动后才会完全生效。
 
@@ -124,7 +122,7 @@ MetaMystia管理工具支持一键安装、升级、卸载和诊断，**推荐�
 
 ### 一键升级
 
-MetaMystia管理工具支持一键升级。升级过程中如果出错，工具会自动回滚到升级前的状态，您可以放心重试。
+MetaMystia Mod管理工具支持一键升级。升级过程中如果出错，工具会自动回滚到升级前的状态，您可以放心重试。
 
 您可以阅读[一键安装](#onclick_install)了解如何获取和使用该工具。
 

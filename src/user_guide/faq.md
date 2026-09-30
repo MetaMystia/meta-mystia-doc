@@ -26,7 +26,7 @@
 
 #### 一键卸载
 
-MetaMystia管理工具提供一键卸载功能。您可以阅读[一键安装](./how_to_install.md#onclick_install)了解如何获取和使用该工具。
+MetaMystia Mod管理工具提供一键卸载功能。您可以阅读[一键安装](./how_to_install.md#onclick_install)了解如何获取和使用该工具。
 
 #### 手动卸载
 
