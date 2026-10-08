@@ -50,6 +50,7 @@
 | ------------------------------------ | ---------------------------------------------------------- |
 | `/resourceex list`                   | 列出成功加载和被拒绝的资源包                               |
 | `/resourceex info <name>`            | 按ZIP文件名、`label`或显示名称查看资源包信息和内容统计     |
+| `/resourceex tags`                   | 列出料理标签冲突规则和资源包新增的标签                     |
 | `/resourceex map list`               | 列出资源包注册的白天地图ID                                 |
 | `/resourceex map goto <id> [marker]` | 进入指定白天地图，可指定出生点；仅限单机白天自由活动时使用 |
 | `/resourceex map back`               | 从资源包地图返回进入前的地图                               |
