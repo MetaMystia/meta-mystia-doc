@@ -14,14 +14,16 @@
 | 商人       | 欢迎或空闲对话、价格倍率、库存数量、出售概率和商品列表                                                   |
 | 服装       | 图标、立绘、小人贴图、皮肤索引和界面偏移                                                                 |
 | 礼物邮箱   | 发放的物品、礼物标题和领取时播放的对话                                                                   |
-| 符卡       | 角色符卡的名称、说明、立绘和特效包；符卡效果由MetaMystia内置实现                                         |
+| 符卡       | 角色符卡的名称、说明、立绘和特效包，以及符卡持续效果的buff名称、说明和图标；符卡效果由MetaMystia内置实现 |
 | 白天地图   | 地图切片、图层、碰撞、出生点、相机和音乐；目前为预览功能，只能在单机时用`/resourceex map`进入            |
 
 ## 示例资源包现状
 
 示例包（MetaMystia-ResourceExample）可通过[管理工具](../user_guide/how_to_install.md#onclick_install)安装。制作资源包的创作者可参考[示例包仓库](https://github.com/MetaMystia/MetaMystia-ResourceExample)，其中的`ResourceEx.json`列出了全部示例内容。
 
-示例包展示了角色、对话、食材、料理、食谱、酒水、任务、事件、商人和服装等配置，其中包含大妖精、小恶魔、芙兰朵露、八意永琳、神绮、秋姐妹、八云蓝、雪、舞等角色。部分角色已有羁绊流程，其余内容仍会继续补充。
+示例包展示了角色、对话、食材、料理、食谱、酒水、任务、事件、商人、服装、礼物邮箱和符卡等配置，其中包含大妖精、小恶魔、芙兰朵露、八意永琳、神绮、秋姐妹、八云蓝、雪、舞等角色。舞和秋穰子已有可使用的符卡，部分角色已有羁绊流程，其余内容仍会继续补充。
+
+示例包依赖DLC1、DLC2、DLC4和DLC5。缺少其中任何一个时，示例包不会被加载，详见[DLC依赖](#dlc_dependency)。
 
 ![示例角色](./use_resource-ex.assets/531355090-29c4d18b-2201-4ca5-8e0b-149882682493.png)
 
@@ -55,6 +57,20 @@ ExamplePack.zip
   └─Audio
     └─welcome.wav
 ```
+
+## DLC依赖 {#dlc_dependency}
+
+资源包可以在`ResourceEx.json`的`packInfo.dependencies`中声明自己需要哪些DLC，例如：
+
+```json
+"dependencies": ["CORE", "DLC2", "DLC5"]
+```
+
+- 声明的DLC必须全部已在游戏中激活，资源包才会被加载；缺少任何一个，该包会被拒绝，`/resourceex list`中能看到被拒绝的包，并附有提示。
+- 没有声明`dependencies`的资源包视为只依赖本体，始终可以加载。`CORE`代表本体，恒定激活。
+- 示例包声明了`CORE`、`DLC1`、`DLC2`、`DLC4`和`DLC5`。
+
+如果您的DLC齐全却仍被拒绝，或者明确知道缺少的DLC不会影响自己要用的内容，可以编辑`游戏根目录/BepInEx/config/MetaMystia.cfg`，在`[General]`分区把`IgnoreDlcDependencyCheck`改为`true`，然后重启游戏。启用后所有资源包都会跳过依赖检查，缺少DLC的内容可能无法正常显示或出现未知问题，MetaMystia启动时也会给出警告。
 
 ## 点单配置
 

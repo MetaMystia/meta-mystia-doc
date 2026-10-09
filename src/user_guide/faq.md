@@ -16,6 +16,12 @@
 
 您可以在黑色控制台窗口内按<kbd>Esc</kbd>或点击一下鼠标右键，取消文本选择，再观察游戏窗口是否恢复正常。
 
+### 资源包没有加载，提示“检测到缺少 DLC”怎么办？
+
+资源包会声明自己依赖的DLC，缺少任何一个，整个包都不会加载。执行`/resourceex list`可以看到被拒绝的包。示例包需要DLC1、DLC2、DLC4和DLC5，请先确认已在Steam上拥有这些DLC。
+
+如需强制加载，可以在`游戏根目录/BepInEx/config/MetaMystia.cfg`的`[General]`分区把`IgnoreDlcDependencyCheck`改为`true`。这样做可能导致缺少DLC的内容无法正常显示，详见[DLC依赖](../resource_ex/use_resource-ex.md#dlc_dependency)。
+
 ### 运行管理工具时显示“版本信息无效”怎么办？
 
 这通常说明您使用的管理工具版本过旧，而服务器接口已经更新。请重新下载最新版的<span class="version-manager">**meta-mystia-manager-v\*.exe**</span>（见[一键安装](./how_to_install.md#onclick_install)），旧版本无法继续完成安装或升级。
