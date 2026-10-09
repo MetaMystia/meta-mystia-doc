@@ -45,9 +45,9 @@
     dotnet build MetaMystia.sln
     ```
 
-9. 构建会生成`BepInEx/plugins/MetaMystia-v<版本>.dll`，并把项目附带的`Il2CppInterop.HarmonySupport.dll`复制到`BepInEx/core`。如果该核心补丁发生变化，关闭所有游戏进程后重新启动游戏。
+9. 构建会生成`BepInEx/plugins/MetaMystia-v<版本>.dll`，并把`MetaMystia.Preloader.dll`复制到`BepInEx/patchers/MetaMystia`。
 
-主项目目标框架是.NET 6.0，当前使用C# 14语法，因此开发环境安装.NET 10 SDK。源生成器项目目标框架为.NET Standard 2.0。
+主项目目标框架是.NET 6.0，当前使用C# 14语法，因此开发环境安装.NET 10 SDK。源生成器项目目标框架为.NET Standard 2.0。运行`src/MetaMystia.Network.Tests`和`src/MetaMystia.Flow.Tests`等测试项目还需要安装.NET 6运行时。
 
 ## 安装工具
 
