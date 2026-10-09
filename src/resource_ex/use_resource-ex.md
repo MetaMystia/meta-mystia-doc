@@ -1,23 +1,29 @@
 # ResourceEx资源扩展
 
-[ResourceEx](https://github.com/MetaMystia/MetaMystia/tree/main/ResourceEx)是MetaMystia内置的资源扩展功能。游戏启动时，它会读取`ResourceEx`文件夹中的ZIP资源包并加载其中的配置和素材。
+[ResourceEx](https://github.com/MetaMystia/MetaMystia/tree/main/src/MetaMystia.Mod/ResourceEx)是MetaMystia内置的资源扩展功能。游戏启动时，它会读取`ResourceEx`文件夹中的ZIP资源包并加载其中的配置和素材。
 
 ## 当前支持的内容
 
 | 类型       | 可配置内容                                                                                               |
 | ---------- | -------------------------------------------------------------------------------------------------------- |
 | 稀客角色   | 名称、图鉴描述、立绘、小人贴图、白天出现位置、营业出场、资金、评价、闲聊、喜好和厌恶、点单需求、羁绊对话 |
-| 物品       | 食材、料理、食谱、酒水、标签、价格、等级、图标和厨具类型                                                 |
+| 食材和料理 | 食材、料理、食谱、酒水、标签、价格、等级、图标和厨具类型                                                 |
+| 物品       | 名称、描述和图标；可作为礼物、商品、任务奖励或任务交付目标                                               |
 | 剧情       | 对话包、立绘、CG或背景、WAV音频、分支、跳转和结束动作                                                    |
-| 任务和事件 | 任务条件、奖励、后续任务、定时条件、事件触发和对话事件                                                   |
+| 任务和事件 | 任务条件、奖励（含物品和金钱）、后续任务、定时条件、事件触发和对话事件                                   |
 | 商人       | 欢迎或空闲对话、价格倍率、库存数量、出售概率和商品列表                                                   |
 | 服装       | 图标、立绘、小人贴图、皮肤索引和界面偏移                                                                 |
+| 礼物邮箱   | 发放的物品、礼物标题和领取时播放的对话                                                                   |
+| 符卡       | 角色符卡的名称、说明、立绘和特效包，以及符卡持续效果的buff名称、说明和图标；符卡效果由MetaMystia内置实现 |
+| 白天地图   | 地图切片、图层、碰撞、出生点、相机和音乐；目前为预览功能，只能在单机时用`/resourceex map`进入            |
 
 ## 示例资源包现状
 
 示例包（MetaMystia-ResourceExample）可通过[管理工具](../user_guide/how_to_install.md#onclick_install)安装。制作资源包的创作者可参考[示例包仓库](https://github.com/MetaMystia/MetaMystia-ResourceExample)，其中的`ResourceEx.json`列出了全部示例内容。
 
-示例包展示了角色、对话、食材、料理、食谱、酒水、任务、事件、商人和服装等配置，其中包含大妖精、小恶魔、芙兰朵露、八意永琳、神绮、秋姐妹、八云蓝、雪、舞等角色。部分角色已有羁绊流程，其余内容仍会继续补充。
+示例包展示了角色、对话、食材、料理、食谱、酒水、任务、事件、商人、服装、礼物邮箱和符卡等配置，其中包含大妖精、小恶魔、芙兰朵露、八意永琳、神绮、秋姐妹、八云蓝、雪、舞等角色。舞和秋穰子已有可使用的符卡，部分角色已有羁绊流程，其余内容仍会继续补充。
+
+示例包依赖DLC1、DLC2、DLC4和DLC5。缺少其中任何一个时，示例包不会被加载，详见[DLC依赖](#dlc_dependency)。
 
 ![示例角色](./use_resource-ex.assets/531355090-29c4d18b-2201-4ca5-8e0b-149882682493.png)
 
@@ -52,6 +58,20 @@ ExamplePack.zip
     └─welcome.wav
 ```
 
+## DLC依赖 {#dlc_dependency}
+
+资源包可以在`ResourceEx.json`的`packInfo.dependencies`中声明自己需要哪些DLC，例如：
+
+```json
+"dependencies": ["CORE", "DLC2", "DLC5"]
+```
+
+- 声明的DLC必须全部已在游戏中激活，资源包才会被加载；缺少任何一个，该包会被拒绝，`/resourceex list`中能看到被拒绝的包，并附有提示。
+- 没有声明`dependencies`的资源包视为只依赖本体，始终可以加载。`CORE`代表本体，恒定激活。
+- 示例包声明了`CORE`、`DLC1`、`DLC2`、`DLC4`和`DLC5`。
+
+如果您的DLC齐全却仍被拒绝，或者明确知道缺少的DLC不会影响自己要用的内容，可以编辑`游戏根目录/BepInEx/config/MetaMystia.cfg`，在`[General]`分区把`IgnoreDlcDependencyCheck`改为`true`，然后重启游戏。启用后所有资源包都会跳过依赖检查，缺少DLC的内容可能无法正常显示或出现未知问题，MetaMystia启动时也会给出警告。
+
 ## 点单配置
 
 食物和酒水点单可在角色配置中分别声明。用户配置文件`BepInEx/config/MetaMystia.cfg`提供三种模式：
@@ -64,7 +84,7 @@ ExamplePack.zip
 
 ## ID和签名
 
-ResourceEx目前对角色、食材、料理、食谱和酒水ID执行统一校验：
+ResourceEx目前对角色、食材、料理、食谱、酒水、物品、服装、白天地图、符卡和buff的ID执行统一校验：
 
 - 小于或等于`8999`：游戏保留区，ResourceEx禁止使用；
 - `9000`至`1073741823`：受管理区，必须声明合法ID段；启用签名校验时还必须通过签名；
@@ -90,13 +110,12 @@ ResourceEx目前对角色、食材、料理、食谱和酒水ID执行统一校�
 
 ## 对话展示和触发
 
-当前ResourceEx仅负责加载并注入对话数据，尚未提供完整的对话触发逻辑。
+资源包中的对话包可以由任务、事件和礼物邮箱触发。
 
-对于自行编写逻辑或调试的开发者，暂时可通过`WebDebugger`的简易`Console`手动触发指定对话包：
+白天打开游戏原有的联动菜单时，菜单末尾会出现以下两项：
 
-```csharp
-MetaMystia.Dialog.ShowResourceExPackage("YourDialogPackageName", null)
-```
+- `剧情回放(MetaMystia)`：回看游戏剧情和ResourceEx对话，ResourceEx对话需要先读过一次才能回放；
+- `资源包礼物邮箱`：领取资源包配置的礼物，领取时播放对应对话。没有配置礼物时该项不可用。
 
 ## 版权和再分发
 
