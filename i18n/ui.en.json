@@ -1,0 +1,27 @@
+{
+	"book_title": "MetaMystia Docs",
+	"book_description": "MetaMystia is an unofficial multiplayer and content expansion mod for the game Touhou Mystia's Izakaya. This site is its documentation.",
+	"ui": {
+		"language_title": "Change language",
+		"language_aria": "Language",
+		"search_placeholder": "Search the docs...",
+		"search_toggle_title": "Search (press / to open the search box)",
+		"search_toggle_aria": "Toggle search bar",
+		"sidebar_toggle_title": "Show/hide the table of contents",
+		"theme_toggle_title": "Change theme",
+		"theme_popup_aria": "Theme",
+		"theme_default": "Default",
+		"print_title": "Print this page",
+		"edit_title": "Edit this page",
+		"github_title": "GitHub repository",
+		"prev_title": "Previous chapter",
+		"next_title": "Next chapter",
+		"help_title": "Keyboard shortcuts",
+		"help_nav": "Press <kbd>←</kbd> or <kbd>→</kbd> to move between chapters",
+		"help_search": "Press <kbd>S</kbd> or <kbd>/</kbd> to search",
+		"help_show": "Press <kbd>?</kbd> to show this help",
+		"help_hide": "Press <kbd>ESC</kbd> to hide this help",
+		"search_results": "{count} results for “{keyword}”",
+		"search_no_results": "No results found for “{keyword}”"
+	}
+}

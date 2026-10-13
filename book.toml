@@ -3,6 +3,7 @@ title = "MetaMystia文档"
 description = "MetaMystia是为游戏《东方夜雀食堂》制作的非官方联机和资源扩展Mod，本网站是它的文档站。"
 authors = ["AnYiEE", "MetaMikuAI"]
 language = "zh-CN"
+src = "content/zh-CN"
 
 [output.html]
 additional-css = ["assets/fancybox/fancybox.css", "custom.css"]

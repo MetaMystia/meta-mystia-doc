@@ -1,0 +1,27 @@
+{
+	"book_title": "MetaMystia ドキュメント",
+	"book_description": "MetaMystiaは、ゲーム『東方夜雀食堂』向けの非公式マルチプレイ・コンテンツ拡張Modです。本サイトはそのドキュメントサイトです。",
+	"ui": {
+		"language_title": "言語を切り替え",
+		"language_aria": "言語",
+		"search_placeholder": "ドキュメントを検索...",
+		"search_toggle_title": "検索（/ キーで検索ボックスを開く）",
+		"search_toggle_aria": "検索バーの表示切り替え",
+		"sidebar_toggle_title": "目次の表示切り替え",
+		"theme_toggle_title": "テーマを切り替え",
+		"theme_popup_aria": "テーマ",
+		"theme_default": "デフォルト",
+		"print_title": "このページを印刷",
+		"edit_title": "このページを編集",
+		"github_title": "GitHubリポジトリ",
+		"prev_title": "前の章",
+		"next_title": "次の章",
+		"help_title": "キーボードショートカット",
+		"help_nav": "<kbd>←</kbd>または<kbd>→</kbd>で章を移動できます",
+		"help_search": "<kbd>S</kbd>または<kbd>/</kbd>で検索できます",
+		"help_show": "<kbd>?</kbd>でこのヘルプを表示",
+		"help_hide": "<kbd>ESC</kbd>でこのヘルプを閉じる",
+		"search_results": "「{keyword}」の検索結果：{count}件",
+		"search_no_results": "「{keyword}」に一致する内容は見つかりませんでした"
+	}
+}

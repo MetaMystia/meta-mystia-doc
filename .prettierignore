@@ -1,6 +1,9 @@
 assets/
 book/
 node_modules/
+.build/
+theme/
+scripts/dist/
 *.hbs
 *.yml
 *.yaml

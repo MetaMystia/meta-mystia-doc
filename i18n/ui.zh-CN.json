@@ -1,0 +1,27 @@
+{
+	"book_title": "MetaMystia文档",
+	"book_description": "MetaMystia是为游戏《东方夜雀食堂》制作的非官方联机和资源扩展Mod，本网站是它的文档站。",
+	"ui": {
+		"language_title": "切换语言",
+		"language_aria": "语言",
+		"search_placeholder": "搜索文档...",
+		"search_toggle_title": "搜索（按 / 即可打开搜索框）",
+		"search_toggle_aria": "切换搜索栏",
+		"sidebar_toggle_title": "展开/收起目录",
+		"theme_toggle_title": "切换主题",
+		"theme_popup_aria": "主题",
+		"theme_default": "默认",
+		"print_title": "打印本页",
+		"edit_title": "编辑本页",
+		"github_title": "GitHub仓库",
+		"prev_title": "上一章节",
+		"next_title": "下一章节",
+		"help_title": "键盘快捷键",
+		"help_nav": "按<kbd>←</kbd>或<kbd>→</kbd>在章节间导航",
+		"help_search": "按<kbd>S</kbd>或<kbd>/</kbd>搜索",
+		"help_show": "按<kbd>?</kbd>显示此帮助",
+		"help_hide": "按<kbd>ESC</kbd>隐藏此帮助",
+		"search_results": "{count}条搜索结果：{keyword}",
+		"search_no_results": "没有找到与“{keyword}”相关的内容"
+	}
+}

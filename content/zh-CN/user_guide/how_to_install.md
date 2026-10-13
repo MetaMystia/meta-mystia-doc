@@ -6,7 +6,7 @@
 
 MetaMystia Mod管理工具支持一键安装、升级、卸载、启用/禁用和诊断，**推荐所有玩家使用**，安装与后续更新都交给它即可。
 
-1. 从以下任一地址下载<span class="version-manager">最新的**meta-mystia-manager-v\*.exe**</span>：
+1. 从以下任一地址下载<span class="version-manager">**meta-mystia-manager-v\*.exe**</span>：
     - GitHub：
       [https://github.com/MetaMystia/meta-mystia-manager/releases](https://github.com/MetaMystia/meta-mystia-manager/releases)
     - 本站服务器：
@@ -80,7 +80,7 @@ MetaMystia Mod管理工具支持一键安装、升级、卸载、启用/禁用�
 
 ### 二、下载安装Mod
 
-1. 从以下地址下载<span class="version-dll">最新的**MetaMystia-v\*.dll**</span>：
+1. 从以下地址下载<span class="version-dll">**MetaMystia-v\*.dll**</span>：
     - GitHub：
       [https://github.com/MetaMystia/MetaMystia/releases](https://github.com/MetaMystia/MetaMystia/releases)
 
@@ -92,7 +92,7 @@ MetaMystia Mod管理工具支持一键安装、升级、卸载、启用/禁用�
 
     如果`plugins`文件夹不存在，您可以手动创建一个。
 
-3. 如果您想在游戏中加入由MetaMystia所提供的额外内容（如：新的稀客），您还需要下载<span class="version-zip">最新的**ResourceExample-v\*.zip**</span>。
+3. 如果您想在游戏中加入由MetaMystia所提供的额外内容（如：新的稀客），您还需要下载<span class="version-zip">**ResourceExample-v\*.zip**</span>。
 
     下载完成后，将文件放入以下目录（**无需解压**）：
 

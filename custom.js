@@ -77,6 +77,48 @@
 		);
 	};
 
+	/**
+	 * @type {{
+	 * 	ui?: Record<string, Record<string, string>>;
+	 * 	titles?: Record<string, string>;
+	 * 	descriptions?: Record<string, string>;
+	 * 	locales?: { code: string; label: string; glyph: string }[];
+	 * 	defaultLocale?: string;
+	 * }}
+	 */
+	const docData = (() => {
+		try {
+			const element = document.getElementById('doc-data');
+			return element === null
+				? {}
+				: JSON.parse(element.textContent ?? '{}');
+		} catch (error) {
+			console.error('[custom] 解析语言数据失败', error);
+			return {};
+		}
+	})();
+
+	const locales = Array.isArray(docData.locales) ? docData.locales : [];
+	const defaultLocale =
+		typeof docData.defaultLocale === 'string'
+			? docData.defaultLocale
+			: 'zh-CN';
+
+	const currentLocale = () => {
+		const value = document.documentElement.dataset.docLocale;
+		return typeof value === 'string' && value.length > 0
+			? value
+			: defaultLocale;
+	};
+
+	/**
+	 * @param {string} [locale]
+	 */
+	const uiStrings = (locale = currentLocale()) => docData.ui?.[locale] ?? {};
+
+	/** @type {() => void} */
+	let refreshSearchHeader = () => {};
+
 	(() => {
 		const BASE_URL = 'izakaya.cc';
 		if (location.hostname.endsWith(`.${BASE_URL}`)) {
@@ -107,7 +149,7 @@
 
 			setScriptUrlTag(ANALYTICS_SCRIPT_URL, 'async', true)
 				.then(() => {
-					FingerprintJS.load()
+					FingerprintJS?.load()
 						.then((fp) => fp.get())
 						.then(({ visitorId }) => {
 							push(['setUserId', visitorId], ['trackPageView']);
@@ -198,7 +240,7 @@
 		})();
 
 		/**
-		 * @description Fetch and display the latest version information
+		 * @description Fill in the latest version fetched from the version API
 		 */
 		(async () => {
 			const managerElements = document.querySelectorAll(
@@ -228,31 +270,27 @@
 				return;
 			}
 
-			if (data.manager !== null) {
-				managerElements.forEach((el) => {
-					el.innerHTML = el.innerHTML
-						.replace('*', data.manager)
-						.replace('最新的', '');
+			/**
+			 * @param {NodeListOf<Element>} elements
+			 * @param {string | null} value
+			 */
+			const fill = (elements, value) => {
+				if (value === null) {
+					return;
+				}
+
+				elements.forEach((el) => {
+					el.innerHTML = el.innerHTML.replace('*', () => value);
 				});
-			}
-			if (data.dll !== null) {
-				dllElements.forEach((el) => {
-					el.innerHTML = el.innerHTML
-						.replace('*', data.dll)
-						.replace('最新的', '');
-				});
-			}
-			if (data.zip !== null) {
-				zipElements.forEach((el) => {
-					el.innerHTML = el.innerHTML
-						.replace('*', data.zip)
-						.replace('最新的', '');
-				});
-			}
+			};
+
+			fill(managerElements, data.manager);
+			fill(dllElements, data.dll);
+			fill(zipElements, data.zip);
 		})();
 
 		/**
-		 * @description Translate the search results header
+		 * @description Translate the search results header into the active language
 		 */
 		(() => {
 			const el = document.getElementById('mdbook-searchresults-header');
@@ -260,21 +298,59 @@
 				return;
 			}
 
-			/** @type {(node: HTMLElement | null) => void} */
-			const replaceText = (node) => {
-				if (!node || !node.textContent) {
+			/** @type {{ kind: 'results' | 'none'; count?: string; keyword: string } | null} */
+			let state = null;
+
+			/**
+			 * @param {string} text
+			 */
+			const parse = (text) => {
+				let match = text.match(/^(\d+) search results for\s+'(.+)':$/i);
+				if (match !== null) {
+					return /** @type {const} */ ({
+						kind: 'results',
+						count: match[1],
+						keyword: match[2],
+					});
+				}
+
+				match = text.match(/^No search results for\s+'(.+)'\.$/i);
+				if (match !== null) {
+					return /** @type {const} */ ({
+						kind: 'none',
+						keyword: match[1],
+					});
+				}
+
+				return null;
+			};
+
+			const render = () => {
+				if (state === null) {
 					return;
 				}
 
-				const regex = /^(\d+) search results for\s+'(.+)':$/i;
-				const match = node.textContent.trim().match(regex);
-				if (match === null) {
+				const strings = uiStrings();
+				const template =
+					state.kind === 'results'
+						? strings.search_results
+						: strings.search_no_results;
+				if (typeof template !== 'string') {
 					return;
 				}
 
-				const count = match[1];
-				const keyword = match[2];
-				node.textContent = `${count}条搜索结果：${keyword}`;
+				el.textContent = template
+					.replace('{count}', () => state?.count ?? '')
+					.replace('{keyword}', () => state?.keyword ?? '');
+			};
+			refreshSearchHeader = render;
+
+			const handle = () => {
+				const parsed = parse(el.textContent?.trim() ?? '');
+				if (parsed !== null) {
+					state = parsed;
+					render();
+				}
 			};
 
 			const observer = new MutationObserver((mutations) => {
@@ -283,18 +359,329 @@
 						mutation.type === 'characterData' ||
 						mutation.type === 'childList'
 					) {
-						replaceText(el);
+						handle();
 						break;
 					}
 				}
 			});
 
-			replaceText(el);
+			handle();
 			observer.observe(el, {
 				characterData: true,
 				childList: true,
 				subtree: true,
 			});
 		})();
+
+		/**
+		 * @description Language switching: update attributes, title, search state
+		 */
+		const sidebar = document.getElementById('doc-sidebar');
+
+		/**
+		 * @param {string} locale
+		 */
+		const scrollSidebarToActive = (locale) => {
+			const active = sidebar?.querySelector(
+				`[data-doc-lang="${locale}"] a.active`
+			);
+			if (sidebar && active instanceof HTMLElement) {
+				sidebar.scrollTop = active.offsetTop - sidebar.clientHeight / 2;
+			}
+		};
+
+		/**
+		 * mdBook 5 会在 DOMContentLoaded 时扫描 <main> 并把本页标题树注入侧栏，
+		 * 多语言合并后会把五种语言的标题全部收进来，这里改为按当前语言重建。
+		 *
+		 * @param {string} locale
+		 */
+		const rebuildOnThisPage = (locale) => {
+			if (sidebar === null) {
+				return;
+			}
+
+			for (const node of sidebar.querySelectorAll('.on-this-page')) {
+				node.remove();
+			}
+
+			const active = sidebar.querySelector(
+				`[data-doc-lang="${locale}"] a.active`
+			);
+			const block = document.querySelector(
+				`#mdbook-content [data-doc-lang="${locale}"]`
+			);
+			if (!(active instanceof Element) || !(block instanceof Element)) {
+				return;
+			}
+
+			const headers = [
+				...block.querySelectorAll('h2, h3, h4, h5, h6'),
+			].filter(
+				(header) =>
+					header.id.length > 0 &&
+					header.firstElementChild?.tagName === 'A'
+			);
+			if (headers.length === 0) {
+				return;
+			}
+
+			const root = document.createElement('ol');
+			root.className = 'section';
+			/** @type {{ level: number; list: Element }[]} */
+			const stack = [
+				{ level: Number(headers[0].tagName.charAt(1)), list: root },
+			];
+
+			for (const header of headers) {
+				const anchor = header.firstElementChild;
+				if (anchor === null) {
+					continue;
+				}
+				const level = Number(header.tagName.charAt(1));
+				while (
+					stack.length > 1 &&
+					stack[stack.length - 1].level > level
+				) {
+					stack.pop();
+				}
+				const top = stack[stack.length - 1];
+				if (level > top.level) {
+					const nested = document.createElement('ol');
+					nested.className = 'section';
+					(top.list.lastElementChild ?? top.list).append(nested);
+					stack.push({ level, list: nested });
+				}
+
+				const item = document.createElement('li');
+				item.className = 'header-item expanded';
+				const wrapper = document.createElement('span');
+				wrapper.className = 'chapter-link-wrapper';
+				const link = document.createElement('a');
+				link.className = 'header-in-summary';
+				link.href = `#${header.id}`;
+				for (const child of anchor.childNodes) {
+					link.append(child.cloneNode(true));
+				}
+				wrapper.append(link);
+				item.append(wrapper);
+				top.list.append(item);
+			}
+
+			const container = document.createElement('div');
+			container.className = 'on-this-page';
+			container.append(root);
+			active.parentElement?.after(container);
+		};
+
+		/**
+		 * @param {string} locale
+		 */
+		const applyAttributes = (locale) => {
+			const strings = uiStrings(locale);
+
+			/**
+			 * @param {string} id
+			 * @param {string | undefined} value
+			 * @param {'text' | 'html'} [mode]
+			 */
+			const setText = (id, value, mode = 'html') => {
+				const element = document.getElementById(id);
+				if (element && typeof value === 'string') {
+					if (mode === 'text') {
+						element.textContent = value;
+					} else {
+						element.innerHTML = value;
+					}
+				}
+			};
+
+			/**
+			 * @param {Element | null | undefined} element
+			 * @param {string} attribute
+			 * @param {string | undefined} value
+			 */
+			const setAttribute = (element, attribute, value) => {
+				if (element && typeof value === 'string') {
+					element.setAttribute(attribute, value);
+				}
+			};
+
+			const searchbar = document.getElementById('mdbook-searchbar');
+			setAttribute(searchbar, 'placeholder', strings.search_placeholder);
+
+			const searchToggle = document.getElementById(
+				'mdbook-search-toggle'
+			);
+			setAttribute(searchToggle, 'title', strings.search_toggle_title);
+			setAttribute(
+				searchToggle,
+				'aria-label',
+				strings.search_toggle_aria ?? strings.search_toggle_title
+			);
+
+			const sidebarToggle = document.getElementById(
+				'mdbook-sidebar-toggle'
+			);
+			setAttribute(sidebarToggle, 'title', strings.sidebar_toggle_title);
+			setAttribute(
+				sidebarToggle,
+				'aria-label',
+				strings.sidebar_toggle_title
+			);
+
+			const themeToggle = document.getElementById('mdbook-theme-toggle');
+			setAttribute(themeToggle, 'title', strings.theme_toggle_title);
+			setAttribute(themeToggle, 'aria-label', strings.theme_toggle_title);
+
+			const themeList = document.getElementById('mdbook-theme-list');
+			setAttribute(themeList, 'aria-label', strings.theme_popup_aria);
+			setText(
+				'mdbook-theme-default_theme',
+				strings.theme_default,
+				'text'
+			);
+
+			const github = document.getElementById('doc-github');
+			setAttribute(github, 'title', strings.github_title);
+			setAttribute(github, 'aria-label', strings.github_title);
+
+			const edit = document.getElementById('doc-edit');
+			setAttribute(edit, 'title', strings.edit_title);
+			setAttribute(edit, 'aria-label', strings.edit_title);
+
+			const langToggle = document.getElementById('doc-lang-toggle');
+			setAttribute(langToggle, 'title', strings.language_title);
+			setAttribute(langToggle, 'aria-label', strings.language_title);
+
+			const langList = document.getElementById('doc-lang-list');
+			setAttribute(
+				langList,
+				'aria-label',
+				strings.language_aria ?? strings.language_title
+			);
+
+			for (const link of document.querySelectorAll(
+				'a.nav-chapters.previous'
+			)) {
+				setAttribute(link, 'title', strings.prev_title);
+				setAttribute(link, 'aria-label', strings.prev_title);
+			}
+			for (const link of document.querySelectorAll(
+				'a.nav-chapters.next'
+			)) {
+				setAttribute(link, 'title', strings.next_title);
+				setAttribute(link, 'aria-label', strings.next_title);
+			}
+
+			setText('doc-help-title', strings.help_title);
+			setText('doc-help-nav', strings.help_nav);
+			setText('doc-help-search', strings.help_search);
+			setText('doc-help-show', strings.help_show);
+			setText('doc-help-hide', strings.help_hide);
+
+			const titles = docData.titles ?? {};
+			if (typeof titles[locale] === 'string') {
+				document.title = titles[locale];
+			}
+			const descriptions = docData.descriptions ?? {};
+			if (typeof descriptions[locale] === 'string') {
+				document
+					.querySelector('meta[name="description"]')
+					?.setAttribute('content', descriptions[locale]);
+			}
+
+			for (const item of document.querySelectorAll(
+				'#doc-lang-list .doc-lang-item'
+			)) {
+				item.setAttribute(
+					'aria-checked',
+					String(item.getAttribute('data-doc-locale') === locale)
+				);
+			}
+		};
+
+		/**
+		 * @param {string} locale
+		 * @param {{ persist?: boolean }} [options]
+		 */
+		const applyLocale = (locale, options = {}) => {
+			if (!locales.some((item) => item.code === locale)) {
+				return;
+			}
+
+			document.documentElement.lang = locale;
+			document.documentElement.dataset.docLocale = locale;
+			applyAttributes(locale);
+			refreshSearchHeader();
+			scrollSidebarToActive(locale);
+			rebuildOnThisPage(locale);
+
+			if (options.persist) {
+				try {
+					localStorage.setItem('doc-locale', locale);
+				} catch {}
+			}
+
+			const wrapper = document.getElementById('mdbook-search-wrapper');
+			const searchbar = document.getElementById('mdbook-searchbar');
+			if (
+				wrapper &&
+				!wrapper.classList.contains('hidden') &&
+				searchbar instanceof HTMLInputElement &&
+				searchbar.value.length > 0
+			) {
+				searchbar.dispatchEvent(new Event('input', { bubbles: true }));
+			}
+		};
+
+		const langToggle = document.getElementById('doc-lang-toggle');
+		const langList = document.getElementById('doc-lang-list');
+		const closeLangList = () => {
+			langList?.classList.remove('open');
+			langToggle?.setAttribute('aria-expanded', 'false');
+		};
+
+		langToggle?.addEventListener('click', (event) => {
+			event.stopPropagation();
+			const open = langList?.classList.toggle('open') ?? false;
+			langToggle.setAttribute('aria-expanded', String(open));
+		});
+		langList?.addEventListener('click', (event) => {
+			const item =
+				event.target instanceof Element
+					? event.target.closest('.doc-lang-item')
+					: null;
+			if (!(item instanceof HTMLElement)) {
+				return;
+			}
+
+			const locale = item.getAttribute('data-doc-locale');
+			if (locale !== null) {
+				applyLocale(locale, { persist: true });
+			}
+			closeLangList();
+		});
+		document.addEventListener('click', (event) => {
+			if (!(event.target instanceof Node)) {
+				return;
+			}
+			if (!langList?.contains(event.target)) {
+				closeLangList();
+			}
+		});
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape') {
+				closeLangList();
+			}
+		});
+
+		applyLocale(currentLocale());
+
+		// 本脚本注册晚于 toc.js，DOMContentLoaded 处理顺序在其后，
+		// 可以清掉 mdBook 按整页注入的多语言标题树
+		document.addEventListener('DOMContentLoaded', () => {
+			rebuildOnThisPage(currentLocale());
+		});
 	});
 })();

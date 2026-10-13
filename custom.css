@@ -2,9 +2,15 @@
 	--mono-font:
 		'Source Code Pro', 'Consolas', 'JetBrains Mono', 'Menlo', 'Roboto Mono',
 		'Monaco', 'DejaVu Sans Mono', 'Liberation Mono', 'Courier New',
-		'Courier', 'SFMono-Regular', 'Source Han Mono SC',
-		'Noto Sans Mono CJK SC', 'Source Han Mono', 'Noto Sans Mono CJK',
-		monospace;
+		'Courier', 'SFMono-Regular', var(--doc-cjk-mono-font),
+		'Source Han Mono', 'Noto Sans Mono CJK', monospace;
+}
+
+html {
+	--doc-cjk-font:
+		'PingFang SC', 'Source Han Sans SC', 'Noto Sans CJK SC',
+		'Microsoft YaHei', 'WenQuanYi Micro Hei';
+	--doc-cjk-mono-font: 'Source Han Mono SC', 'Noto Sans Mono CJK SC';
 }
 
 html {
@@ -12,9 +18,30 @@ html {
 		'-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue',
 		'Source Sans Pro', 'Source Sans 3', 'DejaVu Sans', 'Liberation Sans',
 		'Helvetica', 'Roboto', 'Inter', 'Arial', 'SFProDisplay-Regular',
-		'PingFang SC', 'Source Han Sans SC', 'Noto Sans CJK SC',
-		'Source Han Sans', 'Noto Sans CJK', 'Microsoft YaHei',
-		'WenQuanYi Micro Hei', sans-serif;
+		var(--doc-cjk-font), 'Source Han Sans', 'Noto Sans CJK', sans-serif;
+}
+
+html[data-doc-locale='zh-TW'] {
+	--doc-cjk-font:
+		'PingFang TC', 'Source Han Sans TC', 'Noto Sans CJK TC',
+		'Microsoft JhengHei', 'WenQuanYi Micro Hei';
+	--doc-cjk-mono-font: 'Source Han Mono TC', 'Noto Sans Mono CJK TC';
+}
+
+html[data-doc-locale='ja'] {
+	--doc-cjk-font:
+		'Hiragino Kaku Gothic ProN', 'Source Han Sans JP', 'Noto Sans CJK JP',
+		'Noto Sans JP', 'Yu Gothic', 'YuGothic', 'Meiryo', 'MS PGothic';
+	--doc-cjk-mono-font: 'Source Han Mono J', 'Noto Sans Mono CJK JP';
+}
+
+html[data-doc-locale='ko'] {
+	--doc-cjk-font:
+		'Apple SD Gothic Neo', 'Source Han Sans KR', 'Noto Sans CJK KR',
+		'Noto Sans KR', 'Malgun Gothic', 'Nanum Gothic';
+	--doc-cjk-mono-font:
+		'Source Han Mono K', 'Noto Sans Mono CJK KR', 'Nanum Gothic Coding',
+		'D2Coding';
 }
 
 body {
@@ -51,4 +78,107 @@ p > a:only-child > img:only-child {
 
 .menu-title {
 	font-weight: 400;
+}
+
+.doc-lang-block {
+	display: none;
+}
+
+html[data-doc-locale='zh-CN'] .doc-lang-block[data-doc-lang='zh-CN'],
+html[data-doc-locale='zh-TW'] .doc-lang-block[data-doc-lang='zh-TW'],
+html[data-doc-locale='en'] .doc-lang-block[data-doc-lang='en'],
+html[data-doc-locale='ja'] .doc-lang-block[data-doc-lang='ja'],
+html[data-doc-locale='ko'] .doc-lang-block[data-doc-lang='ko'] {
+	display: block;
+}
+
+.doc-lang-inline {
+	display: none;
+}
+
+html[data-doc-locale='zh-CN'] .doc-lang-inline[data-doc-lang='zh-CN'],
+html[data-doc-locale='zh-TW'] .doc-lang-inline[data-doc-lang='zh-TW'],
+html[data-doc-locale='en'] .doc-lang-inline[data-doc-lang='en'],
+html[data-doc-locale='ja'] .doc-lang-inline[data-doc-lang='ja'],
+html[data-doc-locale='ko'] .doc-lang-inline[data-doc-lang='ko'] {
+	display: inline;
+}
+
+/* 多语言：静态侧栏与语言切换 */
+#mdbook-sidebar > mdbook-sidebar-scrollbox {
+	display: none;
+}
+
+/* 禁用 JavaScript 时由静态多语言侧栏承担导航，隐藏 mdBook 的单语言 iframe 回退 */
+#mdbook-sidebar iframe {
+	display: none;
+}
+
+#doc-sidebar {
+	z-index: 1;
+}
+
+.doc-lang {
+	position: relative;
+	display: inline-flex;
+}
+
+.doc-lang-toggle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.6rem;
+}
+
+.doc-lang-popup {
+	display: none;
+	position: absolute;
+	top: 100%;
+	right: 0;
+	z-index: 1000;
+	border-radius: 4px;
+	font-size: 0.85em;
+	color: var(--fg);
+	background: var(--theme-popup-bg);
+	border: 1px solid var(--theme-popup-border);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow: hidden;
+	max-width: calc(100vw - 20px);
+}
+
+.doc-lang-popup.open {
+	display: block;
+}
+
+.doc-lang-item {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	border: 0;
+	margin: 0;
+	padding: 4px 16px;
+	line-height: 25px;
+	white-space: nowrap;
+	text-align: start;
+	cursor: pointer;
+	color: inherit;
+	background: inherit;
+	font-size: inherit;
+	font-family: inherit;
+}
+
+.doc-lang-item:hover {
+	background-color: var(--theme-hover);
+}
+
+.doc-lang-item[aria-checked='true'] {
+	color: var(--sidebar-active);
+}
+
+.doc-lang-glyph {
+	display: inline-block;
+	width: 1.6em;
+	opacity: 0.75;
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="{{ language }}" class="{{ default_theme }} sidebar-visible" dir="{{ text_direction }}">
+<html lang="zh-CN" data-doc-locale="zh-CN" class="{{ default_theme }} sidebar-visible" dir="{{ text_direction }}">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -50,13 +50,74 @@
         <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
         {{/if}}
 
+        <script type="application/json" id="doc-data">{}</script>
+        <script>
+            (() => {
+                try {
+                    const data = JSON.parse(document.getElementById('doc-data').textContent);
+                    const normalize = (value) => {
+                        if (typeof value !== 'string') {
+                            return null;
+                        }
+
+                        const segments = value.trim().toLowerCase().split(/[-_]/u);
+                        const [language] = segments;
+                        if (language === 'zh') {
+                            if (segments.includes('hant') || segments.some((segment) => ['tw', 'hk', 'mo'].includes(segment))) {
+                                return 'zh-TW';
+                            }
+
+                            return 'zh-CN';
+                        }
+                        if (language === 'en') {
+                            return 'en';
+                        }
+                        if (language === 'ja') {
+                            return 'ja';
+                        }
+                        if (language === 'ko') {
+                            return 'ko';
+                        }
+
+                        return null;
+                    };
+
+                    let locale = null;
+                    try {
+                        locale = normalize(localStorage.getItem('doc-locale'));
+                    } catch {
+                        locale = null;
+                    }
+                    if (locale === null && Array.isArray(navigator.languages)) {
+                        for (const language of navigator.languages) {
+                            locale = normalize(language);
+                            if (locale !== null) {
+                                break;
+                            }
+                        }
+                    }
+                    if (locale === null) {
+                        locale = 'zh-CN';
+                    }
+
+                    const html = document.documentElement;
+                    html.lang = locale;
+                    html.dataset.docLocale = locale;
+                    const titles = data?.titles;
+                    if (titles && titles[locale]) {
+                        document.title = titles[locale];
+                    }
+                } catch (error) {}
+            })();
+        </script>
+
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "{{ path_to_root }}";
             const default_light_theme = "{{ default_theme }}";
             const default_dark_theme = "{{ preferred_dark_theme }}";
         {{#if search_js}}
-            window.path_to_searchindex_js = "{{ resource "searchindex.js" }}";
+            window.path_to_searchindex_js = "{{ path_to_root }}searchindex-all.js";
         {{/if}}
         </script>
         <!-- Start loading toc.js asap -->
@@ -65,14 +126,14 @@
     <body>
     <div id="mdbook-help-container">
         <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">键盘快捷键</h2>
+            <h2 class="mdbook-help-title" id="doc-help-title">键盘快捷键</h2>
             <div>
-                <p>按<kbd>←</kbd>或<kbd>→</kbd>在章节间导航</p>
+                <p id="doc-help-nav">按<kbd>←</kbd>或<kbd>→</kbd>在章节间导航</p>
                 {{#if search_enabled}}
-                <p>按<kbd>S</kbd>或<kbd>/</kbd>搜索</p>
+                <p id="doc-help-search">按<kbd>S</kbd>或<kbd>/</kbd>搜索</p>
                 {{/if}}
-                <p>按<kbd>?</kbd>显示此帮助</p>
-                <p>按<kbd>ESC</kbd>隐藏此帮助</p>
+                <p id="doc-help-show">按<kbd>?</kbd>显示此帮助</p>
+                <p id="doc-help-hide">按<kbd>ESC</kbd>隐藏此帮助</p>
             </div>
         </div>
     </div>
@@ -169,6 +230,7 @@
         </script>
 
         <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <div id="doc-sidebar" class="sidebar-scrollbox"></div>
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
@@ -210,18 +272,30 @@
                     <h1 class="menu-title">{{ book_title }}</h1>
 
                     <div class="right-buttons">
+                        <div class="doc-lang">
+                        <button id="doc-lang-toggle" class="icon-button doc-lang-toggle" type="button" title="切换语言" aria-label="切换语言" aria-haspopup="true" aria-expanded="false" aria-controls="doc-lang-list">
+                            {{fa "solid" "language"}}
+                        </button>
+                        <ul id="doc-lang-list" class="doc-lang-popup" aria-label="语言" role="menu">
+                            <li role="none"><button role="menuitem" type="button" class="doc-lang-item" data-doc-locale="zh-CN"><span class="doc-lang-glyph">简</span>简体中文</button></li>
+                            <li role="none"><button role="menuitem" type="button" class="doc-lang-item" data-doc-locale="zh-TW"><span class="doc-lang-glyph">繁</span>繁體中文</button></li>
+                            <li role="none"><button role="menuitem" type="button" class="doc-lang-item" data-doc-locale="en"><span class="doc-lang-glyph">A</span>English</button></li>
+                            <li role="none"><button role="menuitem" type="button" class="doc-lang-item" data-doc-locale="ja"><span class="doc-lang-glyph">あ</span>日本語</button></li>
+                            <li role="none"><button role="menuitem" type="button" class="doc-lang-item" data-doc-locale="ko"><span class="doc-lang-glyph">한</span>한국어</button></li>
+                        </ul>
+                        </div>
                         {{#if print_enable}}
                         <a href="{{ path_to_root }}print.html" title="打印本页" aria-label="打印本页">
                             {{fa "solid" "print" "print-button"}}
                         </a>
                         {{/if}}
                         {{#if git_repository_url}}
-                        <a href="{{git_repository_url}}" title="GitHub仓库" aria-label="GitHub仓库" rel="noopener noreferrer">
+                        <a id="doc-github" href="{{git_repository_url}}" title="GitHub仓库" aria-label="GitHub仓库" rel="noopener noreferrer">
                             {{fa git_repository_icon_class git_repository_icon}}
                         </a>
                         {{/if}}
                         {{#if git_repository_edit_url}}
-                        <a href="{{git_repository_edit_url}}" title="编辑本页" aria-label="编辑本页" rel="edit noopener noreferrer">
+                        <a id="doc-edit" href="{{git_repository_edit_url}}" title="编辑本页" aria-label="编辑本页" rel="edit noopener noreferrer">
                             {{fa "solid" "pencil" "git-edit-button"}}
                         </a>
                         {{/if}}

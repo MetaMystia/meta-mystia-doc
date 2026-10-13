@@ -1,9 +1,13 @@
 {
 	"private": true,
 	"scripts": {
-		"build": "mdbook build",
-		"serve": "mdbook serve",
+		"build": "node scripts/dist/build.mjs",
+		"i18n:sync": "node scripts/build.mjs",
+		"i18n:serve": "node scripts/build.mjs --serve",
+		"i18n:bundle": "node scripts/bundle.mjs",
+		"i18n:check": "node scripts/check.mjs",
 		"format": "prettier --cache --write .",
+		"typecheck": "tsc",
 		"preinstall": "npx only-allow pnpm",
 		"prepare": "husky",
 		"update": "pnpm up && pnpm dedupe"
@@ -12,10 +16,14 @@
 	"devDependencies": {
 		"@commitlint/cli": "^21.2.3",
 		"@commitlint/config-conventional": "^21.2.3",
+		"@types/node": "^26.6.5",
+		"cheerio": "^1.2.0",
+		"esbuild": "^0.28.2",
 		"husky": "^9.1.7",
-		"lint-staged": "^17.5.1",
+		"lint-staged": "^17.6.0",
 		"only-allow": "^1.2.2",
-		"prettier": "^3.9.9"
+		"prettier": "^3.9.10",
+		"typescript": "^7.0.2"
 	},
 	"lint-staged": {
 		"*": "prettier --ignore-unknown --write"

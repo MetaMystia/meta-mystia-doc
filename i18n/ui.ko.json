@@ -1,0 +1,27 @@
+{
+	"book_title": "MetaMystia 문서",
+	"book_description": "MetaMystia는 게임 《동방 야작식당》을 위한 비공식 멀티플레이·콘텐츠 확장 모드입니다. 이 사이트는 MetaMystia 문서 사이트입니다.",
+	"ui": {
+		"language_title": "언어 변경",
+		"language_aria": "언어",
+		"search_placeholder": "문서 검색...",
+		"search_toggle_title": "검색(/ 키로 검색창 열기)",
+		"search_toggle_aria": "검색창 열기/닫기",
+		"sidebar_toggle_title": "목차 열기/접기",
+		"theme_toggle_title": "테마 변경",
+		"theme_popup_aria": "테마",
+		"theme_default": "기본",
+		"print_title": "이 페이지 인쇄",
+		"edit_title": "이 페이지 편집",
+		"github_title": "GitHub 저장소",
+		"prev_title": "이전 장",
+		"next_title": "다음 장",
+		"help_title": "키보드 단축키",
+		"help_nav": "<kbd>←</kbd> 또는 <kbd>→</kbd> 키로 장을 이동할 수 있습니다",
+		"help_search": "<kbd>S</kbd> 또는 <kbd>/</kbd> 키로 검색할 수 있습니다",
+		"help_show": "<kbd>?</kbd> 키로 이 도움말 표시",
+		"help_hide": "<kbd>ESC</kbd> 키로 이 도움말 닫기",
+		"search_results": "“{keyword}” 검색 결과 {count}건",
+		"search_no_results": "“{keyword}”에 대한 검색 결과가 없습니다"
+	}
+}

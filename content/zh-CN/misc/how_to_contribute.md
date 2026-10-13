@@ -14,7 +14,7 @@ mdBook以Markdown作为写作格式，通过`SUMMARY.md`管理文档结构，适
 
 ## 二、基础编写流程（不需要本地实时预览）
 
-如果您只是新增或修改文档内容，不需要在本地实时查看渲染效果，可以使用以下最简单的流程。
+如果您只是新增或修改文档内容，不需要在本地实时查看渲染效果，可以使用以下最简单的流程。文档正文按语言存放在`content/<语言>`目录，简体中文是`content/zh-CN`，也是其他语言的翻译源。
 
 ### 步骤1：克隆仓库
 
@@ -33,18 +33,18 @@ pnpm i
 
 ### 步骤 3：新增文档文件
 
-- 在`src`目录下新建子文件夹（用于分类文档）
+- 在`content/zh-CN`目录下新建子文件夹（用于分类文档）
 - 在对应文件夹中新建`.md`文件
 
 示例：
 
 ```text
-src/
+content/zh-CN/
  └─ guide/
     └─ getting_started.md
 ```
 
-### 步骤4：修改`src/SUMMARY.md`
+### 步骤4：修改`content/zh-CN/SUMMARY.md`
 
 在`SUMMARY.md`中声明您刚刚创建的文件，使其出现在文档目录中。
 
@@ -69,17 +69,17 @@ pnpm i
 请根据官方指南安装mdBook：
 [https://rust-lang.github.io/mdBook/guide/installation.html](https://rust-lang.github.io/mdBook/guide/installation.html)
 
-### 步骤4：修改`src/SUMMARY.md`
+### 步骤4：修改`content/zh-CN/SUMMARY.md`
 
 在`SUMMARY.md`中提前声明您计划创建的文档路径，即使对应的`.md`文件尚不存在也没有问题。
 
 ### 步骤5：启动本地预览服务
 
 ```bash
-pnpm serve
+pnpm i18n:serve
 ```
 
-该命令会调用mdBook：
+该命令会调用mdBook构建并合并五种语言，然后：
 
 - 读取`SUMMARY.md`
 - 自动创建不存在的Markdown文件
@@ -89,7 +89,7 @@ pnpm serve
 
 ### 步骤6：编辑文档
 
-直接编辑`src`目录下的Markdown文件，保存后浏览器会自动刷新并显示最新内容。
+直接编辑`content/zh-CN`目录下的Markdown文件，保存后浏览器会自动刷新并显示最新内容。
 
 ## 四、`SUMMARY.md`文件说明
 
@@ -106,8 +106,10 @@ pnpm serve
 
 请确保：
 
-- 路径和`src`目录中的实际文件路径一致
+- 路径和`content/zh-CN`目录中的实际文件路径一致
 - 文件名使用小写字母，并使用下划线（snake_case）代替空格
+
+其余语言的目录结构与`content/zh-CN`完全相同，文件名也保持一致，只翻译正文内容。修改中文源文后，请同步更新其他语言，避免各语言版本脱节。
 
 ## 五、提交更改和合并请求
 
@@ -117,17 +119,17 @@ pnpm serve
 
 ```bash
 pnpm format
-pnpm build
+pnpm i18n:sync
 ```
 
-`pnpm format`会格式化仓库内受Prettier支持的文件；`pnpm build`会调用mdBook构建整个文档站。执行后请检查`git diff`，确认没有带入和本次修改无关的格式变化。
+`pnpm format`会格式化仓库内受Prettier支持的文件；`pnpm i18n:sync`会用源码构建整个文档站。执行后请检查`git diff`，确认没有带入和本次修改无关的格式变化。
 
 ### 提交更改
 
 检查通过后，只暂存和本次任务有关的文件，再创建提交。例如：
 
 ```bash
-git add src/guide/getting_started.md src/SUMMARY.md
+git add content/zh-CN/guide/getting_started.md content/zh-CN/SUMMARY.md
 git commit -m "docs: add getting started guide"
 ```
 
